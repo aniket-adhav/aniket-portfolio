@@ -1,7 +1,6 @@
 import { json } from '@remix-run/node';
-import { Home } from './home';
 
-export { Home as default, meta, links } from './home';
+export { Home as default, meta, links, ErrorBoundary } from './home';
 
 const GITHUB_USER = 'aniket-adhav';
 const LEETCODE_USER = 'aniket_adhav';
@@ -270,13 +269,4 @@ export async function loader() {
   }
 }
 
-export function ErrorBoundary() {
-  return (
-    <Home
-      fallbackData={{
-        github: getFallbackGitHub(),
-        leetcode: getFallbackLeetCode(),
-      }}
-    />
-  );
-}
+

@@ -237,3 +237,7 @@ export const Home = ({ fallbackData } = {}) => {
     </div>
   );
 };
+
+export const ErrorBoundary = () => {
+  return <Home />;
+};
