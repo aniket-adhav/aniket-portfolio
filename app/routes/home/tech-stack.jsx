@@ -87,7 +87,7 @@ export function TechStack({ id, visible, sectionRef }) {
                     href={tech.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.item}
+                    className={`${styles.item}${tech.name === 'LeetCode' ? ` ${styles.hideOnMobile}` : ''}`}
                     style={{ '--delay': delay }}
                     title={tech.name}
                   >
