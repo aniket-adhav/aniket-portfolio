@@ -66,8 +66,16 @@ export const meta = () => {
   });
 };
 
-export const Home = () => {
-  const { github, leetcode } = useLoaderData();
+export const Home = ({ fallbackData } = {}) => {
+  let loaderData;
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    loaderData = useLoaderData();
+  } catch {
+    loaderData = fallbackData;
+  }
+  const github = loaderData?.github || fallbackData?.github;
+  const leetcode = loaderData?.leetcode || fallbackData?.leetcode;
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();

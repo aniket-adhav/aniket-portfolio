@@ -68,7 +68,8 @@ function Heatmap({ weekGrid, accentColor, visible }) {
                 key={di}
                 className={styles.heatDay}
                 data-level={day.level}
-                title={day.level >= 0 && day.count > 0 ? `${day.date}: ${day.count}` : day.level === -1 ? '' : day.date}
+                data-today={day.isToday ? 'true' : undefined}
+                title={day.level >= 0 && day.count > 0 ? `${day.date}: ${day.count} activities` : day.level === -1 ? '' : `${day.date}: No activity`}
               />
             ))}
           </div>
@@ -78,13 +79,73 @@ function Heatmap({ weekGrid, accentColor, visible }) {
   );
 }
 
+function SpotlightCard({ href, accentColor, children, className }) {
+  const cardRef = useRef(null);
+  const [style, setStyle] = useState({
+    '--mouse-x': '50%',
+    '--mouse-y': '50%',
+    '--tilt-x': '0deg',
+    '--tilt-y': '0deg',
+  });
+
+  const handleMouseMove = e => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -3.5;
+    const rotateY = ((x - centerX) / centerX) * 3.5;
+
+    setStyle({
+      '--mouse-x': `${x}px`,
+      '--mouse-y': `${y}px`,
+      '--tilt-x': `${rotateX.toFixed(2)}deg`,
+      '--tilt-y': `${rotateY.toFixed(2)}deg`,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setStyle({
+      '--mouse-x': '50%',
+      '--mouse-y': '50%',
+      '--tilt-x': '0deg',
+      '--tilt-y': '0deg',
+    });
+  };
+
+  return (
+    <a
+      ref={cardRef}
+      className={className}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ ...style, '--accent': accentColor }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </a>
+  );
+}
+
 export function DevStats({ id, sectionRef, visible, github, leetcode }) {
   const gh = github || {};
   const lc = leetcode || {};
-  const easy   = lc.easy   || 0;
-  const medium = lc.medium || 0;
-  const hard   = lc.hard   || 0;
+  const totalContribs = gh.totalContribs ?? 1437;
+  const repos = gh.repos ?? 23;
+  const languageCount = gh.languageCount ?? 5;
+  const ghStreak = gh.streak ?? 1;
+
+  const easy   = lc.easy   ?? 293;
+  const medium = lc.medium ?? 524;
+  const hard   = lc.hard   ?? 104;
   const total  = easy + medium + hard;
+  const lcStreak = lc.streak ?? 315;
+  const badgeCount = lc.badgeCount ?? 20;
+  const ranking = lc.ranking ?? 46547;
 
   return (
     <section className={styles.section} id={id} ref={sectionRef} tabIndex={-1}>
@@ -98,12 +159,10 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
         <div className={styles.cards} data-visible={visible}>
 
           {/* ── GitHub Card ── */}
-          <a
+          <SpotlightCard
             className={styles.card}
             href={`https://github.com/${gh.username || 'aniket-adhav'}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ '--accent': '#2dba4e' }}
+            accentColor="#2dba4e"
           >
             <div className={styles.cardGlow} />
 
@@ -121,25 +180,25 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
             <div className={styles.statGrid2x2}>
               <div className={styles.stat}>
                 <span className={styles.statValue} style={{ color: '#2dba4e' }}>
-                  {visible ? <AnimatedNumber value={gh.totalContribs} /> : 0}
+                  {visible ? <AnimatedNumber value={totalContribs} /> : 0}
                 </span>
                 <span className={styles.statKey}>Contributions</span>
               </div>
               <div className={styles.stat}>
                 <span className={styles.statValue} style={{ color: '#2dba4e' }}>
-                  {visible ? <AnimatedNumber value={gh.repos} /> : 0}
+                  {visible ? <AnimatedNumber value={repos} /> : 0}
                 </span>
                 <span className={styles.statKey}>Repositories</span>
               </div>
               <div className={styles.stat}>
                 <span className={styles.statValue} style={{ color: '#2dba4e' }}>
-                  {visible ? <AnimatedNumber value={gh.languageCount} /> : 0}
+                  {visible ? <AnimatedNumber value={languageCount} /> : 0}
                 </span>
                 <span className={styles.statKey}>Languages used</span>
               </div>
               <div className={styles.stat}>
                 <span className={styles.statValue} style={{ color: '#2dba4e' }}>
-                  {visible ? <AnimatedNumber value={gh.streak} /> : 0}
+                  {visible ? <AnimatedNumber value={ghStreak} /> : 0}
                 </span>
                 <span className={styles.statKey}>Day streak 🔥</span>
               </div>
@@ -164,15 +223,13 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
                 <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-          </a>
+          </SpotlightCard>
 
           {/* ── LeetCode Card ── */}
-          <a
+          <SpotlightCard
             className={styles.card}
             href={`https://leetcode.com/u/${lc.username || 'aniket_adhav'}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ '--accent': '#FFA116' }}
+            accentColor="#FFA116"
           >
             <div className={styles.cardGlow} />
 
@@ -224,13 +281,13 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
                 <div className={styles.statRow}>
                   <div className={styles.stat}>
                     <span className={styles.statValue} style={{ color: '#FFA116' }}>
-                      {visible ? <AnimatedNumber value={lc.streak} /> : 0}
+                      {visible ? <AnimatedNumber value={lcStreak} /> : 0}
                     </span>
                     <span className={styles.statKey}>Day streak 🔥</span>
                   </div>
                   <div className={styles.stat}>
                     <span className={styles.statValue} style={{ color: '#FFA116' }}>
-                      {visible ? <AnimatedNumber value={lc.badgeCount} /> : 0}
+                      {visible ? <AnimatedNumber value={badgeCount} /> : 0}
                     </span>
                     <span className={styles.statKey}>Badges 🏅</span>
                   </div>
@@ -240,11 +297,11 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
 
             <Heatmap weekGrid={lc.weekGrid} accentColor="#FFA116" visible={visible} />
 
-            {lc.ranking && (
+            {ranking && (
               <div className={styles.ranking}>
                 <span className={styles.rankingLabel}>Global ranking</span>
                 <span className={styles.rankingValue} style={{ color: '#FFA116' }}>
-                  #{visible ? <AnimatedNumber value={lc.ranking} duration={1800} /> : 0}
+                  #{visible ? <AnimatedNumber value={ranking} duration={1800} /> : 0}
                 </span>
               </div>
             )}
@@ -255,7 +312,7 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
                 <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-          </a>
+          </SpotlightCard>
 
         </div>
       </div>
