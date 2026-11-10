@@ -1,0 +1,62 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  border-top: 2px solid color-mix(in oklch, var(--accent) 30%, transparent);
+}
+
+.stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+  will-change: transform;
+  box-shadow:
+    0 0 16px color-mix(in oklch, var(--accent) 80%, transparent),
+    0 0 40px color-mix(in oklch, var(--accent) 40%, transparent);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--textLight);
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.labelText {
+  opacity: 0.6;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}

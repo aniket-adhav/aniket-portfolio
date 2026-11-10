@@ -1,0 +1,30 @@
+@layer components {
+  .footer {
+    --lineHeightBody: 1.1;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+    padding: var(--space3XL) var(--spaceL);
+    z-index: var(--zIndex2);
+    position: relative;
+    color: var(--textLight);
+
+    @media (max-width: 696px) {
+      padding: var(--space2XL) var(--spaceM);
+      font-size: var(--fontSizeBodyS);
+      text-align: center;
+    }
+  }
+
+  .link {
+    display: inline-flex;
+  }
+
+  .date {
+    padding-right: var(--spaceXS);
+    display: inline-flex;
+  }
+}

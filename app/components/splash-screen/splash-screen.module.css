@@ -1,0 +1,163 @@
+/* ── Keyframes ───────────────────────────────────────────── */
+
+/* Bottom razor line grows left→right across the greeting duration */
+@keyframes progressGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Overlay wipes upward — razor blade cuts from bottom to top */
+@keyframes wipeUp {
+  from {
+    clip-path: inset(0 0 0% 0);
+  }
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/* Progress line shoots upward like a razor blade */
+@keyframes bladeShoot {
+  from {
+    transform: scaleX(1) translateY(0);
+  }
+  to {
+    transform: scaleX(1) translateY(calc(-100vh - 2px));
+  }
+}
+
+/* Greeting word — entry slide up */
+@keyframes wordIn {
+  from {
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Greeting word — elegant exit (floats up and fades) */
+@keyframes wordExit {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-0.8em) scale(1.08);
+    opacity: 0;
+  }
+}
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--background, oklch(17.76% 0 0));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: clip-path;
+}
+
+.overlay[data-exit='true'] {
+  animation: wipeUp 0.5s cubic-bezier(0.6, 0, 0.98, 0.2) forwards;
+}
+
+/* ── Progress line — fixed at viewport bottom, outside clip-path overlay ── */
+.progressLine {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--textTitle, #fff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: 10000;
+  animation: progressGrow 2.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+  transition: opacity 0.35s ease;
+}
+
+/* Blade shoots from bottom to top in sync with the overlay wipe */
+.progressLine[data-exit='true'] {
+  transition: none;
+  animation: bladeShoot 0.5s cubic-bezier(0.6, 0, 0.98, 0.2) forwards;
+}
+
+/* ── Center greeting container ── */
+.center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Clip mask — extra padding so tall Indic scripts don't get cut ── */
+.clip {
+  overflow: hidden;
+  line-height: 1.25;
+  padding: 0.25em 0.2em;
+}
+
+/* ── Greeting word ── */
+.word {
+  display: block;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: var(--fontWeightRegular, 400);
+  color: var(--textTitle, #fff);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  animation: wordIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  white-space: nowrap;
+  font-family: Gotham, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+}
+
+.word:lang(en) {
+  letter-spacing: 0.08em;
+  font-weight: var(--fontWeightMedium, 500);
+}
+
+.center[data-leaving='true'] .word {
+  animation: wordExit 0.45s cubic-bezier(0.87, 0, 0.13, 1) both;
+}
+
+/* ── Corner labels ── */
+.labelBL,
+.labelBR {
+  position: fixed;
+  bottom: clamp(22px, 3.2vw, 48px);
+  font-family: Gotham, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--textTitle, #fff);
+  opacity: 0.35;
+  user-select: none;
+  transition: opacity 0.4s ease;
+}
+
+.labelBL {
+  left: clamp(22px, 3.2vw, 48px);
+}
+
+.labelBR {
+  right: clamp(22px, 3.2vw, 48px);
+}
+
+.labelBL[data-hide='true'],
+.labelBR[data-hide='true'] {
+  opacity: 0;
+}

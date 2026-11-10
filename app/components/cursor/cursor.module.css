@@ -1,0 +1,82 @@
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 6px var(--accent);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+
+  &[data-hover='true'] {
+    opacity: 0;
+  }
+
+  &[data-press='true'] {
+    opacity: 0.5;
+  }
+}
+
+.ringPos {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+.ring {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border: 1.5px solid color-mix(in oklch, var(--accent) 70%, transparent);
+  border-radius: 50%;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow:
+    0 0 8px color-mix(in oklch, var(--accent) 40%, transparent),
+    inset 0 0 8px color-mix(in oklch, var(--accent) 10%, transparent);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+
+  &[data-hover='true'] {
+    transform: scale(1.7);
+    border-color: var(--accent);
+    background: color-mix(in oklch, var(--accent) 10%, transparent);
+    box-shadow:
+      0 0 16px color-mix(in oklch, var(--accent) 60%, transparent),
+      0 0 32px color-mix(in oklch, var(--accent) 30%, transparent),
+      0 0 64px color-mix(in oklch, var(--accent) 15%, transparent),
+      inset 0 0 16px color-mix(in oklch, var(--accent) 15%, transparent);
+  }
+
+  &[data-press='true'] {
+    transform: scale(0.85);
+    background: color-mix(in oklch, var(--accent) 20%, transparent);
+    box-shadow:
+      0 0 20px color-mix(in oklch, var(--accent) 80%, transparent),
+      0 0 40px color-mix(in oklch, var(--accent) 40%, transparent);
+  }
+}
+
+:global(.custom-cursor-active),
+:global(.custom-cursor-active *) {
+  cursor: none !important;
+}

@@ -1,0 +1,43 @@
+.home {
+  overflow-x: hidden;
+}
+
+.githubRow {
+  display: flex;
+  justify-content: center;
+  padding: var(--spaceL) var(--spaceOuter) var(--space3XL);
+
+  & > * {
+    font-size: var(--fontSizeBodyL);
+  }
+
+  @media (--mediaMobile) {
+    padding-left: var(--spaceM);
+    padding-right: var(--spaceM);
+
+    & > * {
+      width: fit-content;
+      justify-content: center;
+      font-size: var(--fontSizeBodyS);
+      padding-left: var(--spaceL);
+      padding-right: var(--spaceL);
+    }
+  }
+}
+
+.githubBtnFull {
+  display: inline;
+
+  @media (--mediaMobile) {
+    display: none;
+  }
+}
+
+.githubBtnShort {
+  display: none;
+
+  @media (--mediaMobile) {
+    display: inline;
+  }
+}
+

@@ -1,0 +1,39 @@
+.wipe {
+  position: relative;
+  display: block;
+}
+
+.bar {
+  position: absolute;
+  inset: -2px -4px;
+  background: var(--accent);
+  z-index: 2;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+
+  @media (--mediaUseMotion) {
+    [data-visible='true'] & {
+      animation: wipeBar 0.7s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      animation-delay: var(--wipe-delay, 0ms);
+    }
+  }
+}
+
+.content {
+  display: block;
+}
+
+@keyframes wipeBar {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  44% {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 0 100%);
+  }
+}
