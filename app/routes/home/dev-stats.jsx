@@ -79,58 +79,6 @@ function Heatmap({ weekGrid, accentColor, visible }) {
   );
 }
 
-function SpotlightCard({ href, accentColor, children, className }) {
-  const cardRef = useRef(null);
-  const [style, setStyle] = useState({
-    '--mouse-x': '50%',
-    '--mouse-y': '50%',
-    '--tilt-x': '0deg',
-    '--tilt-y': '0deg',
-  });
-
-  const handleMouseMove = e => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -3.5;
-    const rotateY = ((x - centerX) / centerX) * 3.5;
-
-    setStyle({
-      '--mouse-x': `${x}px`,
-      '--mouse-y': `${y}px`,
-      '--tilt-x': `${rotateX.toFixed(2)}deg`,
-      '--tilt-y': `${rotateY.toFixed(2)}deg`,
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setStyle({
-      '--mouse-x': '50%',
-      '--mouse-y': '50%',
-      '--tilt-x': '0deg',
-      '--tilt-y': '0deg',
-    });
-  };
-
-  return (
-    <a
-      ref={cardRef}
-      className={className}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ ...style, '--accent': accentColor }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {children}
-    </a>
-  );
-}
-
 export function DevStats({ id, sectionRef, visible, github, leetcode }) {
   const gh = github || {};
   const lc = leetcode || {};
@@ -159,12 +107,13 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
         <div className={styles.cards} data-visible={visible}>
 
           {/* ── GitHub Card ── */}
-          <SpotlightCard
+          <a
             className={styles.card}
             href={`https://github.com/${gh.username || 'aniket-adhav'}`}
-            accentColor="#2dba4e"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ '--accent': '#2dba4e' }}
           >
-            <div className={styles.cardGlow} />
 
             <div className={styles.cardHeader}>
               <svg className={styles.platformIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -223,15 +172,16 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
                 <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-          </SpotlightCard>
+          </a>
 
           {/* ── LeetCode Card ── */}
-          <SpotlightCard
+          <a
             className={styles.card}
             href={`https://leetcode.com/u/${lc.username || 'aniket_adhav'}`}
-            accentColor="#FFA116"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ '--accent': '#FFA116' }}
           >
-            <div className={styles.cardGlow} />
 
             <div className={styles.cardHeader}>
               <img
@@ -312,7 +262,7 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
                 <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-          </SpotlightCard>
+          </a>
 
         </div>
       </div>
