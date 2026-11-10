@@ -11,8 +11,8 @@ const baseTokens = {
   durationL: '600ms',
   durationXL: '800ms',
   systemFontStack:
-    'system-ui, -apple-system, BlinkMacSystemFont, San Francisco, Roboto, Segoe UI, Ubuntu, Helvetica Neue, sans-serif',
-  fontStack: `Gotham, var(--systemFontStack)`,
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif',
+  fontStack: 'Gotham, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif',
   monoFontStack:
     'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
   japaneseFontStack:

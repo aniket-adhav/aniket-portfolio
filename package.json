@@ -4,7 +4,10 @@
   "description": "Portfolio of Aniket Adhav — Full Stack Web & Android Developer",
   "repository": "https://github.com/aniket-adhav/portfolio.git",
   "author": "Aniket Adhav",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
   "type": "module",
   "scripts": {
     "build": "node ./scripts/draco.cjs && remix vite:build",

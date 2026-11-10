@@ -1,5 +1,6 @@
 @layer components {
   .heading {
+    font-family: var(--fontStack);
     line-height: var(--lineHeightTitle);
     color: var(--textTitle);
 

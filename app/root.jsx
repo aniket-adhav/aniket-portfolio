@@ -23,10 +23,14 @@ import { Progress } from '~/components/progress';
 import { PageTransition } from '~/components/page-transition/page-transition';
 import config from '~/config.json';
 import styles from './root.module.css';
+import resetStyles from './reset.module.css?url';
+import globalStyles from './global.module.css?url';
 import './reset.module.css';
 import './global.module.css';
 
 export const links = () => [
+  { rel: 'stylesheet', href: resetStyles },
+  { rel: 'stylesheet', href: globalStyles },
   {
     rel: 'preload',
     href: GothamMedium,
