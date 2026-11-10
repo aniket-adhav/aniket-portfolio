@@ -23,10 +23,10 @@ import { Progress } from '~/components/progress';
 import { PageTransition } from '~/components/page-transition/page-transition';
 import config from '~/config.json';
 import styles from './root.module.css';
-import resetStyles from './reset.module.css?url';
-import globalStyles from './global.module.css?url';
-import './reset.module.css';
-import './global.module.css';
+import resetStyles from './reset.css?url';
+import globalStyles from './global.css?url';
+import './reset.css';
+import './global.css';
 
 export const links = () => [
   { rel: 'stylesheet', href: resetStyles },
@@ -59,7 +59,7 @@ export const links = () => [
   { rel: 'author', href: '/humans.txt', type: 'text/plain' },
 ];
 
-export const loader = async ({ request, context }) => {
+export const loader = async ({ request }) => {
   const { url } = request;
   const { pathname } = new URL(url);
   const pathnameSliced = pathname.endsWith('/') ? pathname.slice(0, -1) : url;
