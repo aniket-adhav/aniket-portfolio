@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
+import edgeverveLogo from '~/assets/edgeverve-logo.webp';
 import styles from './dev-stats.module.css';
 
 const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -99,9 +100,83 @@ export function DevStats({ id, sectionRef, visible, github, leetcode }) {
     <section className={styles.section} id={id} ref={sectionRef} tabIndex={-1}>
       <div className={styles.content}>
         <div className={styles.heading} data-visible={visible}>
-          <p className={styles.label}>Live Progress</p>
-          <h2 className={styles.title}>GitHub &amp; LeetCode</h2>
-          <p className={styles.subtitle}>Real-time stats pulled fresh from the APIs</p>
+          <p className={styles.label}>Experience &amp; Progress</p>
+          <h2 className={styles.title}>Experience &amp; Live Stats</h2>
+          <p className={styles.subtitle}>Current industry role at EdgeVerve Systems alongside real-time coding stats</p>
+        </div>
+
+        {/* ── Experience Card: EdgeVerve Systems ── */}
+        <div className={styles.expCardWrap} data-visible={visible}>
+          <div className={styles.expCard} style={{ '--accent': '#f97316' }}>
+            <div className={styles.expHeader}>
+              <div className={styles.expCompanyGroup}>
+                <div className={styles.expLogoBox}>
+                  <img
+                    src={edgeverveLogo}
+                    alt="EdgeVerve Systems"
+                    className={styles.expLogo}
+                    loading="lazy"
+                  />
+                </div>
+                <div className={styles.expTitleBlock}>
+                  <h3 className={styles.expRole}>Product Development Associate (Trainee)</h3>
+                  <p className={styles.expCompany}>
+                    EdgeVerve Systems <span className={styles.expSubCompany}>· An Infosys Company</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.expBadgeGroup}>
+                <span className={styles.expPeriod}>Feb 2026 – Present</span>
+                <span className={styles.liveChip}>
+                  <span className={styles.liveDot} style={{ '--dot': '#f97316' }} />
+                  Current Role
+                </span>
+              </div>
+            </div>
+
+            <ul className={styles.expList}>
+              <li className={styles.expItem}>
+                <span className={styles.expBullet} />
+                <span>
+                  Undergoing structured training in <strong>Java</strong>, <strong>Spring Boot</strong>, <strong>REST APIs</strong>, <strong>SQL</strong>, <strong>JavaScript</strong>, and <strong>Node.js</strong> through hands-on backend projects and technical assessments, including practical application development.
+                </span>
+              </li>
+              <li className={styles.expItem}>
+                <span className={styles.expBullet} />
+                <span>
+                  Developing and testing <strong>Spring Boot</strong> applications using <strong>JUnit</strong>, with practical experience in API development, debugging, clean coding, backend workflows, unit testing, and application maintenance.
+                </span>
+              </li>
+              <li className={styles.expItem}>
+                <span className={styles.expBullet} />
+                <span>
+                  Performed <strong>JMeter</strong> performance and load testing, analyzing results and troubleshooting application issues.
+                </span>
+              </li>
+            </ul>
+
+            <div className={styles.expSkills}>
+              <span className={styles.expSkillsLabel}>Core Technologies:</span>
+              <div className={styles.expSkillChips}>
+                {[
+                  'Java',
+                  'Spring Boot',
+                  'REST APIs',
+                  'JUnit',
+                  'SQL',
+                  'JavaScript',
+                  'Node.js',
+                  'JMeter',
+                  'Backend Development',
+                ].map(skill => (
+                  <span key={skill} className={styles.expSkillChip}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className={styles.cards} data-visible={visible}>
